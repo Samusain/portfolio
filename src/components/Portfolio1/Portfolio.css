@@ -47,6 +47,10 @@ body {
   overflow-x: hidden;
 }
 
+span {
+  color: var(--text-color);
+}
+
 .portfolio {
   min-height: 100vh;
   background: var(--bg-color);
@@ -186,6 +190,12 @@ body {
   animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+@media screen and (max-width: 500px){
+  .hero-content {
+    margin-top: 27rem;
+  }
+}
+
 .hero-image {
   flex: 1;
   display: flex;
@@ -216,6 +226,7 @@ body {
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
   max-width: 500px;
+  color: var(--text-color);
   opacity: 0.8;
   line-height: 1.6;
 }
@@ -320,6 +331,7 @@ section {
   font-size: 2.8rem;
   position: relative;
   font-weight: 700;
+  color: var(--text-color);
 }
 
 .section-title::after {
@@ -350,6 +362,7 @@ section {
   margin-bottom: 1.5rem;
   opacity: 0.9;
   line-height: 1.7;
+  color: var(--text-color);
 }
 
 .about-image {
@@ -398,6 +411,7 @@ section {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  color: var(--text-color);
 }
 
 .detail-item {
@@ -417,6 +431,7 @@ section {
 }
 
 .detail-item span {
+  color: var(--text-color);
   font-weight: 700;
   color: var(--primary-color);
 }
@@ -516,6 +531,7 @@ section {
 
 .project-info {
   padding: 2rem;
+  color: var(--text-color);
 }
 
 .project-info h3 {
@@ -562,6 +578,7 @@ section {
 }
 
 .skill-info {
+  color: var(--text-color);
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.8rem;

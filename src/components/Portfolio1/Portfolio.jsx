@@ -5,6 +5,8 @@ import mypic from '../../images/sample.png';
 import projectImg from '../../images/desktop-preview.jpg'; 
 import projectImg2 from '../../images/desktop-design.jpg';
 import projectImg3 from '../../images/22fix-project.png';
+import projectImg4 from '../../images/LedgyFront.png';
+import projectImg5 from '../../images/22SolarFront.png';
 import { MdMailOutline } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineCall } from "react-icons/md";
@@ -44,6 +46,22 @@ const Portfolio = () => {
       technologies: ['React', 'Tailwind CSS', 'UX Design'],
       image: projectImg3,
       link: 'https://22-fix.vercel.app/'
+    },
+    {
+      id: 4,
+      title: 'Ledgy Media Agency',
+      description: 'A moderntech agency, that offers a series of cutting-edge IT solutions, with a dynamic UI/UX.',
+      technologies: ['React', 'Tailwind CSS', 'UX Design'],
+      image: projectImg4,
+      link: 'https://ledgymedia.vercel.app/'
+    },
+    {
+      id: 5,
+      title: '22-Fix Solar Energy Solutions',
+      description: 'A professional website for a solar energy solutions company with modern UI and excellent user experience.',
+      technologies: ['React', 'Tailwind CSS', 'UX Design'],
+      image: projectImg5,
+      link: 'https://22-fix-solar.vercel.app/'
     }
   ];
 
