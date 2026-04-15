@@ -7,18 +7,22 @@ import projectImg2 from '../../images/desktop-design.jpg';
 import projectImg3 from '../../images/22fix-project.png';
 import projectImg4 from '../../images/LedgyFront.png';
 import projectImg5 from '../../images/22SolarFront.png';
+import { MdOutlineLightMode } from "react-icons/md";
+import { MdOutlineNightlight } from "react-icons/md";
 import { MdMailOutline } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineCall } from "react-icons/md";
 import { SlSocialLinkedin } from "react-icons/sl";
 import { BsGithub } from "react-icons/bs";
 import { BsWhatsapp } from "react-icons/bs";
-
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoClose } from "react-icons/io5";
 
 const Portfolio = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [navbarScrolled, setNavbarScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const form = useRef();
 
   // Sample projects data
@@ -43,7 +47,7 @@ const Portfolio = () => {
       id: 3,
       title: '22-Fix Electrical Installation Company',
       description: 'A professional website for an electrical installation company with modern UI and excellent user experience.',
-      technologies: ['React', 'Tailwind CSS', 'UX Design'],
+      technologies: ['React', 'Tailwind CSS', 'Figma Design'],
       image: projectImg3,
       link: 'https://22-fix.vercel.app/'
     },
@@ -59,9 +63,17 @@ const Portfolio = () => {
       id: 5,
       title: '22-Fix Solar Energy Solutions',
       description: 'A professional website for a solar energy solutions company with modern UI and excellent user experience.',
-      technologies: ['React', 'Tailwind CSS', 'UX Design'],
+      technologies: ['React', 'Tailwind CSS', 'Figma Design'],
       image: projectImg5,
       link: 'https://22-fix-solar.vercel.app/'
+    },
+    {
+      id: 6,
+      title: 'Homanol',
+      description: 'A professional website for a cooking gas company with modern UI and excellent user experience.',
+      technologies: ['JavaScript', 'React', 'Tailwind CSS', 'UX Design'],
+      image: projectImg5,
+      link: 'https://homanol.vercel.app/'
     }
   ];
 
@@ -92,6 +104,30 @@ const Portfolio = () => {
           alert('Failed to send message. Please try again.');
         },
       );
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    if (!mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  };
+
+  // Handle navigation link click (smooth scroll + close mobile menu)
+  const handleNavClick = (e, sectionId) => {
+    e.preventDefault();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    closeMobileMenu();
   };
 
   // Scroll event listeners
@@ -129,34 +165,76 @@ const Portfolio = () => {
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
     window.addEventListener('scroll', handleScroll);
+    
+    // Cleanup on unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
+      document.body.style.overflow = 'auto';
     };
   }, []);
+
+  // Close mobile menu on window resize (if screen becomes desktop)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768 && mobileMenuOpen) {
+        closeMobileMenu();
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [mobileMenuOpen]);
 
   return (
     <div className={`portfolio ${darkMode ? 'dark' : 'light'}`}>
       {/* Enhanced Navigation */}
       <nav className={`navbar ${navbarScrolled ? 'scrolled' : ''}`}>
         <div className="container">
-          <div className="logo">NNABUIFE SAMUEL C.</div>
+          <div className="logo">SAMUEL N.C.</div>
+          
+          {/* Desktop Navigation */}
           <ul className="nav-links">
-            <li><a href="#home" className={activeSection === 'home' ? 'active' : ''}>Home</a></li>
-            <li><a href="#about" className={activeSection === 'about' ? 'active' : ''}>About</a></li>
-            <li><a href="#projects" className={activeSection === 'projects' ? 'active' : ''}>Projects</a></li>
-            <li><a href="#skills" className={activeSection === 'skills' ? 'active' : ''}>Skills</a></li>
-            <li><a href="#contact" className={activeSection === 'contact' ? 'active' : ''}>Contact</a></li>
+            <li><a href="#home" className={activeSection === 'home' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'home')}>Home</a></li>
+            <li><a href="#about" className={activeSection === 'about' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'about')}>About</a></li>
+            <li><a href="#projects" className={activeSection === 'projects' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'projects')}>Projects</a></li>
+            <li><a href="#skills" className={activeSection === 'skills' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'skills')}>Skills</a></li>
+            <li><a href="#contact" className={activeSection === 'contact' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'contact')}>Contact</a></li>
           </ul>
-          <button 
-            className="theme-toggle"
-            onClick={() => setDarkMode(!darkMode)}
-            aria-label="Toggle theme"
-          >
-            {darkMode ? '☀️' : '🌙'}
-          </button>
+          
+          <div className="nav-actions">
+            <button 
+              className="theme-toggle"
+              onClick={() => setDarkMode(!darkMode)}
+              aria-label="Toggle theme"
+            >
+              {darkMode ? <MdOutlineLightMode /> : <MdOutlineNightlight />}
+            </button>
+            
+            {/* Burger Menu Button (Mobile only) */}
+            <button 
+              className="burger-menu"
+              onClick={toggleMobileMenu}
+              aria-label="Menu"
+            >
+              {mobileMenuOpen ? <IoClose /> : <RxHamburgerMenu />}
+            </button>
+          </div>
         </div>
       </nav>
+
+      {/* Mobile Navigation Drawer */}
+      <div className={`mobile-nav-drawer ${mobileMenuOpen ? 'open' : ''}`}>
+        <ul className="mobile-nav-links">
+          <li><a href="#home" className={activeSection === 'home' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'home')}>Home</a></li>
+          <li><a href="#about" className={activeSection === 'about' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'about')}>About</a></li>
+          <li><a href="#projects" className={activeSection === 'projects' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'projects')}>Projects</a></li>
+          <li><a href="#skills" className={activeSection === 'skills' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'skills')}>Skills</a></li>
+          <li><a href="#contact" className={activeSection === 'contact' ? 'active' : ''} onClick={(e) => handleNavClick(e, 'contact')}>Contact</a></li>
+        </ul>
+      </div>
+      
+      {/* Overlay for mobile menu */}
+      <div className={`overlay ${mobileMenuOpen ? 'visible' : ''}`} onClick={closeMobileMenu}></div>
 
       {/* Enhanced Hero Section */}
       <section id="home" className="hero">
@@ -166,13 +244,26 @@ const Portfolio = () => {
             <h2>Frontend Developer</h2>
             <p>I build beautiful, responsive web experiences with modern technologies and attention to detail.</p>
             <div className="cta-buttons">
-              <a href="#projects" className="btn primary">View My Work</a>
-              <a href="#contact" className="btn secondary">Contact Me</a>
+              <a href="#projects" className="btn primary" onClick={(e) => handleNavClick(e, 'projects')}>View My Work</a>
+              <a href="#contact" className="btn secondary" onClick={(e) => handleNavClick(e, 'contact')}>Contact Me</a>
             </div>
           </div>
           <div className="hero-image fade-in">
             <div className="code-snippet">
-              <pre>{`function Developer() {\n  return {\n    name: "Samuel",\n    skills: ["React", "JavaScript", "CSS3"],\n    passion: "Creating amazing user experiences",\n    focus: "Clean code & modern design"\n  };\n}`}</pre>
+              <pre>{`// 🚀 interactive dev journey
+const samuel = {
+  stack: ['React', 'Tailwind', 'JS'],
+  design: 'pixel-perfect',
+  focus: 'high-performance UI',
+  motto: 'clean code, bold design'
+};
+
+function buildFuture() {
+  return samuel.stack.map(tech => 
+    \`✨ \${tech} magic\`
+  );
+}
+// currently shipping: 6+ live projects`}</pre>
             </div>
           </div>
         </div>
@@ -274,6 +365,7 @@ const Portfolio = () => {
                 <div className="code-line"></div>
                 <div className="code-line"></div>
                 <div className="code-line"></div>
+                <span className="code-symbol">&lt;/&gt;</span>
               </div>
             </div>
           </div>
@@ -287,26 +379,26 @@ const Portfolio = () => {
           <div className="contact-content">
             <div className="contact-info">
               <div className="info-item fade-in">
-                <i className="fas fa-envelope"><MdMailOutline /></i>
+                <MdMailOutline />
                 <span>samzy334@gmail.com</span>
               </div>
               <div className="info-item fade-in">
-                <i className="fas fa-phone"><MdOutlineCall /></i>
+                <MdOutlineCall />
                 <span>+234 (91) 5703-5164</span>
               </div>
               <div className="info-item fade-in">
-                <i className="fas fa-map-marker-alt"><IoLocationOutline /></i>
+                <IoLocationOutline />
                 <span>Lagos, Nigeria</span>
               </div>
               <div className="social-links">
                 <a href="https://github.com/Samusain" target="_blank" rel="noopener noreferrer" className="fade-in">
-                  <i className="fab fa-github"><BsGithub /></i>
+                  <BsGithub />
                 </a>
                 <a href="https://www.linkedin.com/in/samuel-nnabuife-73675127b" target="_blank" rel="noopener noreferrer" className="fade-in">
-                  <i className="fab fa-linkedin"><SlSocialLinkedin /></i>
+                  <SlSocialLinkedin />
                 </a>
-                <a href="+2349157035164" target="_blank" rel="noopener noreferrer" className="fade-in">
-                  <i className="fab fa-twitter"><BsWhatsapp /></i>
+                <a href="https://wa.me/2349157035164" target="_blank" rel="noopener noreferrer" className="fade-in">
+                  <BsWhatsapp />
                 </a>
               </div>
             </div>
@@ -327,7 +419,7 @@ const Portfolio = () => {
                 <label htmlFor="message">Message</label>
                 <textarea name="message" id="message" placeholder="Let's discuss a contract..." required></textarea>
               </div>
-              <button type="submit" className="btn primary" href="#" >Send Message</button>
+              <button type="submit" className="btn primary">Send Message</button>
             </form>
           </div>
         </div>
