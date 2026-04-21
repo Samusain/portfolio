@@ -244,26 +244,26 @@ const Portfolio = () => {
             <h2>Frontend Developer</h2>
             <p>I build beautiful, responsive web experiences with modern technologies and attention to detail.</p>
             <div className="cta-buttons">
-              <a href="#projects" className="btn primary" onClick={(e) => handleNavClick(e, 'projects')}>View My Work</a>
+              <a href="#projects" className="btn primary" onClick={(e) => handleNavClick(e, 'projects')}>My Work</a>
               <a href="#contact" className="btn secondary" onClick={(e) => handleNavClick(e, 'contact')}>Contact Me</a>
             </div>
           </div>
           <div className="hero-image fade-in">
             <div className="code-snippet">
               <pre>{`// 🚀 interactive dev journey
-const samuel = {
-  stack: ['React', 'Tailwind', 'JS'],
-  design: 'pixel-perfect',
-  focus: 'high-performance UI',
-  motto: 'clean code, bold design'
-};
+                      const samuel = {
+                        stack: ['React', 'Tailwind', 'JS'],
+                        design: 'pixel-perfect',
+                        focus: 'high-performance UI',
+                        motto: 'clean code, bold design'
+                      };
 
-function buildFuture() {
-  return samuel.stack.map(tech => 
-    \`✨ \${tech} magic\`
-  );
-}
-// currently shipping: 6+ live projects`}</pre>
+                      function buildFuture() {
+                        return samuel.stack.map(tech => 
+                          \`✨ \${tech} magic\`
+                        );
+                      }
+                      // currently shipping: 6+ live projects`}</pre>
             </div>
           </div>
         </div>
