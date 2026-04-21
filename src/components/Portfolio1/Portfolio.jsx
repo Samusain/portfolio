@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
+import { motion } from 'framer-motion';
 import './Portfolio.css';
+import Aurora from '../Aurora/Aurora';
+import SpotlightCard from '../SpotlightCard/SpotlightCard';
+import TextPressure from '../TextPressure/TextPressure';
 import mypic from '../../images/sample.png';
 import projectImg from '../../images/desktop-preview.jpg'; 
 import projectImg2 from '../../images/desktop-design.jpg';
@@ -19,7 +23,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 
 const Portfolio = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
   const [navbarScrolled, setNavbarScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,7 +37,8 @@ const Portfolio = () => {
       description: 'A responsive insurance site with additional features built using React and Tailwind CSS',
       technologies: ['React', 'Tailwind CSS', 'JavaScript'],
       image: projectImg,
-      link: 'https://insure-sfx.netlify.app/insure'
+      link: 'https://insure-sfx.netlify.app/insure',
+      featured: true
     },
     {
       id: 2,
@@ -185,6 +190,26 @@ const Portfolio = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [mobileMenuOpen]);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
+
   return (
     <div className={`portfolio ${darkMode ? 'dark' : 'light'}`}>
       {/* Enhanced Navigation */}
@@ -246,9 +271,15 @@ const Portfolio = () => {
             <div className="cta-buttons">
               <a href="#projects" className="btn primary" onClick={(e) => handleNavClick(e, 'projects')}>My Work</a>
               <a href="#contact" className="btn secondary" onClick={(e) => handleNavClick(e, 'contact')}>Contact Me</a>
-            </div>
-          </div>
-          <div className="hero-image fade-in">
+            </motion.div>
+          </motion.div>
+          <motion.div 
+            className="hero-image fade-in"
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             <div className="code-snippet">
               <pre>{`// 🚀 interactive dev journey
                       const samuel = {
@@ -265,171 +296,267 @@ const Portfolio = () => {
                       }
                       // currently shipping: 6+ live projects`}</pre>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Enhanced About Section */}
       <section id="about" className="about">
         <div className="container">
-          <h2 className="section-title fade-in">About Me</h2>
-          <div className="about-content">
-            <div className="about-text fade-in">
+          <motion.h2 
+            className="section-title fade-in"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            About Me
+          </motion.h2>
+          <motion.div 
+            className="about-content"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.div className="about-text fade-in" variants={itemVariants}>
               <p>
                 I'm a passionate frontend developer with 3+ years of experience building 
-                modern web applications. I specialize in React and responsive design, 
-                creating interfaces that are both beautiful and functional.
+                modern web applications. I specialize in creating responsive, interactive, 
+                and visually stunning user interfaces that engage and delight users.
               </p>
               <p>
-                My approach combines clean code principles with attention to design 
-                details, ensuring the applications I build are maintainable and 
-                delightful to use across all devices.
+                My journey in web development started with a curiosity about how things work. 
+                Today, I combine technical expertise with creative design thinking to deliver 
+                exceptional digital products.
               </p>
-              <div className="about-details">
-                <div className="detail-item fade-in">
-                  <span>Name:</span> Nnabuife Samuel
-                </div>
-                <div className="detail-item fade-in">
-                  <span>Email:</span> samzy334@gmail.com
-                </div>
-                <div className="detail-item fade-in">
-                  <span>Location:</span> Lagos State, Nigeria
-                </div>
-                <div className="detail-item fade-in">
-                  <span>Focus:</span> Frontend Development
-                </div>
-              </div>
-            </div>
-            <div className="about-image fade-in">
-              <div className="image-frame">
-                <img src={mypic} alt="Samuel Nnabuife" className="mypic"/>
-              </div>
-            </div>
-          </div>
+              <p>
+                When I'm not coding, you'll find me exploring new design trends, contributing 
+                to open-source projects, or sharing knowledge with the developer community.
+              </p>
+            </motion.div>
+            <motion.div className="about-image fade-in" variants={itemVariants}>
+              <img src={mypic} alt="Samuel" />
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Enhanced Projects Section */}
       <section id="projects" className="projects">
         <div className="container">
-          <h2 className="section-title fade-in">Featured Projects</h2>
-          <div className="projects-grid">
-            {projects.map((project, index) => (
-              <div key={project.id} className={`project-card fade-in`} style={{animationDelay: `${index * 0.2}s`}}>
-                <div className="project-image">
-                  <img src={project.image} alt={project.title} />
-                  <div className="project-overlay">
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-                      View Project
-                    </a>
-                  </div>
+          <motion.h2 
+            className="section-title fade-in"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            Featured Projects
+          </motion.h2>
+          
+          {/* Featured Project */}
+          <motion.div 
+            className="featured-project fade-in"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <SpotlightCard spotlightColor="rgba(147, 141, 171, 0.4)">
+              <div className="featured-project-content">
+                <div className="featured-image">
+                  <img src={projectImg} alt="Insure Project" />
                 </div>
-                <div className="project-info">
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-                  <div className="project-tech">
-                    {project.technologies.map(tech => (
-                      <span key={tech}>{tech}</span>
+                <div className="featured-text">
+                  <h3>Insure with Theme Switcher</h3>
+                  <p>A responsive insurance platform featuring a sophisticated theme switcher, built with React and Tailwind CSS. This project showcases modern design patterns and smooth user interactions.</p>
+                  <div className="tech-tags">
+                    {['React', 'Tailwind CSS', 'JavaScript', 'Responsive Design'].map(tech => (
+                      <span key={tech} className="tech-tag">{tech}</span>
                     ))}
                   </div>
+                  <a href="https://insure-sfx.netlify.app/insure" target="_blank" rel="noopener noreferrer" className="project-link">
+                    View Project →
+                  </a>
                 </div>
               </div>
+            </SpotlightCard>
+          </motion.div>
+
+          {/* Other Projects Grid */}
+          <motion.div 
+            className="projects-grid fade-in"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {projects.slice(1).map((project) => (
+              <motion.div key={project.id} variants={itemVariants}>
+                <SpotlightCard spotlightColor="rgba(147, 141, 171, 0.3)">
+                  <div className="project-card">
+                    <div className="project-image">
+                      <img src={project.image} alt={project.title} />
+                    </div>
+                    <div className="project-info">
+                      <h3>{project.title}</h3>
+                      <p>{project.description}</p>
+                      <div className="tech-tags">
+                        {project.technologies.map(tech => (
+                          <span key={tech} className="tech-tag">{tech}</span>
+                        ))}
+                      </div>
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
+                        View Project →
+                      </a>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Enhanced Skills Section */}
       <section id="skills" className="skills">
         <div className="container">
-          <h2 className="section-title fade-in">My Skills</h2>
-          <div className="skills-container">
-            <div className="skills-list">
-              {skills.map((skill, index) => (
-                <div key={skill.name} className="skill-item fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-                  <div className="skill-info">
-                    <span>{skill.name}</span>
-                    <span>{skill.level}%</span>
+          <motion.h2 
+            className="section-title fade-in"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            Skills & Expertise
+          </motion.h2>
+          <motion.div 
+            className="skills-grid fade-in"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {skills.map((skill) => (
+              <motion.div key={skill.name} className="skill-item" variants={itemVariants}>
+                <SpotlightCard spotlightColor="rgba(147, 141, 171, 0.25)">
+                  <div className="skill-content">
+                    <h3>{skill.name}</h3>
+                    <div className="skill-bar">
+                      <motion.div 
+                        className="skill-progress"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.level}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                      />
+                    </div>
+                    <span className="skill-level">{skill.level}%</span>
                   </div>
-                  <div className="skill-bar">
-                    <div 
-                      className="skill-progress" 
-                      style={{ width: `${skill.level}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="skills-illustration fade-in">
-              <div className="code-circle">
-                <div className="code-line"></div>
-                <div className="code-line"></div>
-                <div className="code-line"></div>
-                <span className="code-symbol">&lt;/&gt;</span>
-              </div>
-            </div>
-          </div>
+                </SpotlightCard>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
       {/* Enhanced Contact Section */}
       <section id="contact" className="contact">
         <div className="container">
-          <h2 className="section-title fade-in">Get In Touch</h2>
-          <div className="contact-content">
-            <div className="contact-info">
-              <div className="info-item fade-in">
-                <MdMailOutline />
-                <span>samzy334@gmail.com</span>
+          <motion.h2 
+            className="section-title fade-in"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            Get In Touch
+          </motion.h2>
+          <motion.div 
+            className="contact-content"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.div className="contact-info" variants={itemVariants}>
+              <div className="info-item">
+                <MdMailOutline className="icon" />
+                <div>
+                  <h3>Email</h3>
+                  <p>samuel@example.com</p>
+                </div>
               </div>
-              <div className="info-item fade-in">
-                <MdOutlineCall />
-                <span>+234 (91) 5703-5164</span>
+              <div className="info-item">
+                <IoLocationOutline className="icon" />
+                <div>
+                  <h3>Location</h3>
+                  <p>Your City, Country</p>
+                </div>
               </div>
-              <div className="info-item fade-in">
-                <IoLocationOutline />
-                <span>Lagos, Nigeria</span>
+              <div className="info-item">
+                <MdOutlineCall className="icon" />
+                <div>
+                  <h3>Phone</h3>
+                  <p>+1 (555) 123-4567</p>
+                </div>
               </div>
-              <div className="social-links">
-                <a href="https://github.com/Samusain" target="_blank" rel="noopener noreferrer" className="fade-in">
-                  <BsGithub />
-                </a>
-                <a href="https://www.linkedin.com/in/samuel-nnabuife-73675127b" target="_blank" rel="noopener noreferrer" className="fade-in">
-                  <SlSocialLinkedin />
-                </a>
-                <a href="https://wa.me/2349157035164" target="_blank" rel="noopener noreferrer" className="fade-in">
-                  <BsWhatsapp />
-                </a>
-              </div>
-            </div>
-            <form className="contact-form fade-in" ref={form} onSubmit={sendEmail}>
+            </motion.div>
+
+            <motion.form 
+              ref={form} 
+              onSubmit={sendEmail} 
+              className="contact-form"
+              variants={itemVariants}
+            >
               <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input name="name" id="name" type="text" placeholder="David Jonathan" required />
+                <input 
+                  type="text" 
+                  name="user_name" 
+                  placeholder="Your Name" 
+                  required 
+                />
               </div>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input name="email" id="email" type="email" placeholder="example@gmail.com" required />
+                <input 
+                  type="email" 
+                  name="user_email" 
+                  placeholder="Your Email" 
+                  required 
+                />
               </div>
               <div className="form-group">
-                <label htmlFor="title">Subject</label>
-                <input name="title" id="title" type="text" placeholder="We Need Your Service" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea name="message" id="message" placeholder="Let's discuss a contract..." required></textarea>
+                <textarea 
+                  name="message" 
+                  placeholder="Your Message" 
+                  rows="5" 
+                  required 
+                ></textarea>
               </div>
               <button type="submit" className="btn primary">Send Message</button>
-            </form>
-          </div>
+            </motion.form>
+          </motion.div>
         </div>
       </section>
 
-      {/* Enhanced Footer */}
+      {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; {new Date().getFullYear()} Nnabuife Samuel. All rights reserved.</p>
-          <p style={{marginTop: '0.5rem', opacity: '0.7'}}>Built with React and passion</p>
+          <div className="footer-content">
+            <div className="social-links">
+              <a href="#" className="social-icon" aria-label="LinkedIn">
+                <SlSocialLinkedin />
+              </a>
+              <a href="#" className="social-icon" aria-label="GitHub">
+                <BsGithub />
+              </a>
+              <a href="#" className="social-icon" aria-label="WhatsApp">
+                <BsWhatsapp />
+              </a>
+            </div>
+            <p>&copy; 2024 Samuel N.C. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>
