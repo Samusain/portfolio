@@ -262,13 +262,14 @@ const Portfolio = () => {
       <div className={`overlay ${mobileMenuOpen ? 'visible' : ''}`} onClick={closeMobileMenu}></div>
 
       {/* Enhanced Hero Section */}
+      <Aurora/>
       <section id="home" className="hero">
         <div className="container">
-          <div className="hero-content fade-in">
+          <motion.div className="hero-content fade-in">
             <h1>Hi, I'm <span style={{display: 'inline-block'}}>Samuel</span></h1>
             <h2>Frontend Developer</h2>
             <p>I build beautiful, responsive web experiences with modern technologies and attention to detail.</p>
-            <div className="cta-buttons">
+            <motion.div className="cta-buttons">
               <a href="#projects" className="btn primary" onClick={(e) => handleNavClick(e, 'projects')}>My Work</a>
               <a href="#contact" className="btn secondary" onClick={(e) => handleNavClick(e, 'contact')}>Contact Me</a>
             </motion.div>
@@ -281,7 +282,7 @@ const Portfolio = () => {
             viewport={{ once: true }}
           >
             <div className="code-snippet">
-              <pre>{`// 🚀 interactive dev journey
+              <pre>{`// interactive dev journey
                       const samuel = {
                         stack: ['React', 'Tailwind', 'JS'],
                         design: 'pixel-perfect',
@@ -299,7 +300,6 @@ const Portfolio = () => {
           </motion.div>
         </div>
       </section>
-
       {/* Enhanced About Section */}
       <section id="about" className="about">
         <div className="container">
